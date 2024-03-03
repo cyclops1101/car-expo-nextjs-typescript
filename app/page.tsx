@@ -1,12 +1,24 @@
 import { Hero, SearchBar, CustomFilter } from "@/components";
 import { getCars } from "@/services/cars-api";
-import { CarCard } from "@/components";
-import { CarProps } from "@/types";
+import { CarCard, ShowMore } from "@/components";
+import { CarProps, FilterProps } from "@/types";
+import { fuels, yearsOfProduction } from "@/constants";
 
-export default async function Home() {
-  const allCars: CarProps[] = await getCars({ model: "corolla" });
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: FilterProps;
+}) {
+  let allCars: CarProps[] = [];
+  allCars = await getCars({
+    make: searchParams.make || "",
+    model: searchParams.model || "",
+    limit: searchParams.limit || 10,
+    fuel_type: searchParams.fuel_type || "",
+    year: searchParams.year || 2022,
+  });
 
-  const isDataEmpty = allCars.length < 1 || Array.isArray(allCars);
+  const isDataEmpty = allCars.length < 1 || !Array.isArray(allCars) || !allCars;
 
   return (
     <main className="overflow-hidden">
@@ -14,17 +26,17 @@ export default async function Home() {
 
       <div className="mt-12 padding-x padding-y max-width" id="discover">
         <div className="home__text-container">
-          <h1 className="text-4x1 font-extrabold">Car Catalogue</h1>
+          <h1 className="text-4xl font-extrabold">Car Catalogue</h1>
           <p>Explore the cars you might like</p>
         </div>
         <div className="home__filters">
           <SearchBar />
           <div className="home__filter-container">
-            <CustomFilter title="fuel" />
-            <CustomFilter title="year" />
+            <CustomFilter title="fuel" options={fuels} />
+            <CustomFilter title="year" options={yearsOfProduction} />
           </div>
         </div>
-        {isDataEmpty ? (
+        {!isDataEmpty ? (
           <section>
             <div className="home__cars-wrapper">
               {allCars?.map((car: CarProps) => (
@@ -34,6 +46,11 @@ export default async function Home() {
                 />
               ))}
             </div>
+
+            <ShowMore
+              pageNumber={(searchParams.limit || 10) / 10}
+              isNext={(searchParams.limit || 10) > allCars.length}
+            />
           </section>
         ) : (
           <div className="home__error-container">

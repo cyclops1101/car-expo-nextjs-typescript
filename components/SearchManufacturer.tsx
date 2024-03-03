@@ -5,7 +5,10 @@ import Image from "next/image";
 import { useState, Fragment } from "react";
 import { manufacturers } from "@/constants";
 
-const SearchManufacturer = ({ manufacturer, setManufacturer }: SearchManufacturerProps) => {
+const SearchManufacturer = ({
+  manufacturer,
+  setManufacturer,
+}: SearchManufacturerProps) => {
   const [query, setQuery] = useState("");
 
   const filteredManufacturers =
@@ -46,7 +49,7 @@ const SearchManufacturer = ({ manufacturer, setManufacturer }: SearchManufacture
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options>
+            <Combobox.Options className="absolute bg-white z-10">
               {filteredManufacturers.map((manufacturer) => (
                 <Combobox.Option
                   key={manufacturer}

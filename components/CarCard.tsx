@@ -5,6 +5,8 @@ import Image from "next/image";
 import { CustomButton } from ".";
 import { calucalateCarRent } from "@/utils";
 import { CarDetails } from ".";
+import { get } from "http";
+import getCarImages from "@/services/car-image-api";
 
 const CarCard = ({ car }: CarCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +28,7 @@ const CarCard = ({ car }: CarCardProps) => {
       <div className="relative w-full h-40 my-3">
         <Image
           alt="car"
-          src="/hero.png"
+          src={getCarImages(car)}
           fill
           priority
           className="object-contain"
@@ -68,7 +70,6 @@ const CarCard = ({ car }: CarCardProps) => {
         isOpen={isOpen}
         closeModal={() => setIsOpen(false)}
         car={car}
-        rentalPrice={rentalPrice}
       />
     </div>
   );

@@ -19,7 +19,7 @@ export interface GetCarProps {
   make?: string;
   model?: string;
   fuel?: string;
-  year?: string;
+  year?: number;
 }
 
 export interface CarProps {
@@ -41,9 +41,25 @@ export interface CarCardProps {
   car: CarProps;
 }
 
-export interface CarDetailsProps {
-  isOpen: boolean;
-  car: CarProps;
-  rentalPrice: string;
-  closeModal: () => void;
+export interface FilterProps {
+  make: string;
+  year: number;
+  fuel_type: string;
+  limit: number;
+  model: string;
+}
+
+export interface OptionsProps {
+  title: string;
+  value: string;
+}
+
+export interface CustomFilterProps {
+  title: string;
+  options: OptionsProps[];
+}
+
+export interface ShowMoreProps {
+  pageNumber: number;
+  isNext: boolean;
 }

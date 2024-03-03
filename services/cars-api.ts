@@ -1,11 +1,11 @@
-import { GetCarProps } from "@/types";
+import { FilterProps } from "@/types";
 import axios from "axios";
 import { config } from "dotenv";
 config({
   path: "./.env.local",
 });
 
-export async function getCars({ make, model, fuel, year }: GetCarProps) {
+export async function getCars(params: FilterProps) {
   const axiosInstance = axios.create({
     baseURL: "https://cars-by-api-ninjas.p.rapidapi.com/v1",
     headers: {
@@ -16,12 +16,7 @@ export async function getCars({ make, model, fuel, year }: GetCarProps) {
   });
   try {
     const response = await axiosInstance.get("/cars", {
-      params: {
-        make,
-        model,
-        fuel,
-        year,
-      },
+      params,
     });
 
     return response.data;
